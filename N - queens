@@ -1,0 +1,58 @@
+The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.
+
+
+
+Given an integer n, return all distinct solutions to the n-queens puzzle.
+
+Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space respectively.
+
+
+
+***********************************************************
+
+There are two ways mentioned to solve this problem
+
+Way - 1
+
+def solveNQueens(self, n):
+        """
+        :type n: int
+        :rtype: List[List[str]]
+        """
+        col = set()
+        diagonal = set()    # determined by r+c
+        antidiagonal = set() # detemined by r-c
+        output = []
+        result = []
+        
+        def backtrack(r):
+            if r == n:
+                result.append(output[:])
+                return
+            
+            for c in range(n):
+                if c in col or (r+c) in diagonal or (r-c) in antidiagonal: 
+                    continue
+                
+                col.add(c)
+                diagonal.add(r+c)
+                antidiagonal.add(r-c)
+                output.append('.'*c + 'Q' + '.'*(n-c-1))
+                backtrack(r+1)
+                
+                col.remove(c)
+                diagonal.remove(r+c)
+                antidiagonal.remove(r-c)
+                output.pop()
+        
+        backtrack(0)
+        return result
+ *********************************************************     
+   way 2
+   
+   from itertools import permutations
+def Solution(self,n):
+    cols = range(n)
+for combo in permutations(cols):                      
+    if n ==len(set(combo[i]+i for i in cols))==len(set(combo[i]-i for i in cols)):
+        print("\n".join('.' * i + 'Q' + '.' * (n-i-1) for i in combo) + "\n\n\n\n")
